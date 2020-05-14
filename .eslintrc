@@ -26,6 +26,7 @@
     "sort-keys": ["error", "asc", {
       "caseSensitive": false,
       "natural": false
-    }]
+    }],
+    "no-underscore-dangle": "off",
   }
 }
