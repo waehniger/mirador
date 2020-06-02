@@ -13,6 +13,7 @@ import { WorkspaceArea } from '../components/WorkspaceArea';
 const mapStateToProps = state => (
   {
     controlPanelVariant: state.workspace.isWorkspaceAddVisible || Object.keys(state.windows).length > 0 ? undefined : 'wide',
+    isCollectionDialogVisible: state.workspace.collectionDialogOn,
     isWorkspaceAddVisible: state.workspace.isWorkspaceAddVisible,
     isWorkspaceControlPanelVisible: state.config.workspaceControlPanel.enabled,
   }
