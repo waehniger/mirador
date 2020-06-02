@@ -30,19 +30,19 @@ describe('catalog reducer', () => {
     });
   });
 
-  describe('REQUEST_MANIFEST', () => {
+  describe('ADD_WINDOW', () => {
     it('adds new manifests to the state', () => {
       expect(catalogReducer([], {
-        manifestId: '1',
-        type: ActionTypes.REQUEST_MANIFEST,
+        type: ActionTypes.ADD_WINDOW,
+        window: { manifestId: '1' },
       })).toEqual([
         { manifestId: '1' },
       ]);
     });
     it('adds new manifests to the top of state', () => {
       expect(catalogReducer([{ manifestId: '2' }], {
-        manifestId: '1',
-        type: ActionTypes.REQUEST_MANIFEST,
+        type: ActionTypes.ADD_WINDOW,
+        window: { manifestId: '1' },
       })).toEqual([
         { manifestId: '1' },
         { manifestId: '2' },
@@ -50,8 +50,8 @@ describe('catalog reducer', () => {
     });
     it('deduplicate manifests', () => {
       expect(catalogReducer([{ manifestId: '1' }], {
-        manifestId: '1',
-        type: ActionTypes.REQUEST_MANIFEST,
+        type: ActionTypes.ADD_WINDOW,
+        window: { manifestId: '1' },
       })).toEqual([
         { manifestId: '1' },
       ]);
