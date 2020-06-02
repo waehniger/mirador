@@ -13,7 +13,7 @@ import {
 } from '../actions';
 import {
   getSearchForWindow, getSearchAnnotationsForCompanionWindow,
-  getCanvasGrouping, getWindow, getManifests, getManifestoInstance,
+  getCanvasGrouping, getWindow, getManifestoInstance,
   getCompanionWindowIdsForPosition, getManifestSearchService,
   getCanvasForAnnotation,
   getSelectedContentSearchAnnotationIds,
@@ -22,16 +22,14 @@ import {
   getWorkspace,
   getElasticLayout,
 } from '../selectors';
-import { fetchManifest } from './iiif';
+import { fetchManifests } from './iiif';
 
 /** */
 export function* fetchWindowManifest(action) {
   const { manifestId } = action.payload || action.window;
   if (!manifestId) return;
 
-  const manifests = yield select(getManifests);
-  if (!manifests[manifestId]) yield call(fetchManifest, { manifestId });
-
+  yield call(fetchManifests, manifestId, ...(collectionPath || []));
   yield call(setWindowStartingCanvas, action);
   yield call(setWindowDefaultSearchQuery, action);
 }

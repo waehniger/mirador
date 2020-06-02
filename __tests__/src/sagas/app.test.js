@@ -2,7 +2,7 @@ import { call } from 'redux-saga/effects';
 import { testSaga } from 'redux-saga-test-plan';
 
 import { importState } from '../../../src/state/sagas/app';
-import { fetchManifest } from '../../../src/state/sagas/iiif';
+import { fetchManifests } from '../../../src/state/sagas/iiif';
 import { fetchWindowManifest } from '../../../src/state/sagas/windows';
 
 describe('app-level sagas', () => {
@@ -25,7 +25,7 @@ describe('app-level sagas', () => {
           call(fetchWindowManifest, { window: { id: 'y', manifestId: 'url2' } }),
         ]);
     });
-    it('calls into fetchManifest for each manifest', () => {
+    it('calls into fetchManifests for each manifest', () => {
       const action = {
         state: {
           manifests: { x: { id: 'x' } },
@@ -36,7 +36,7 @@ describe('app-level sagas', () => {
       testSaga(importState, action)
         .next()
         .all([
-          call(fetchManifest, { manifestId: 'x' }),
+          call(fetchManifests, 'x'),
         ]);
     });
     it('does not fetchManifest if the manifest json was provided', () => {

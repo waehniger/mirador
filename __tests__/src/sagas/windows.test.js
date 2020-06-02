@@ -14,7 +14,7 @@ import {
   getSortedSearchAnnotationsForCompanionWindow,
   getVisibleCanvasIds, getCanvasForAnnotation,
 } from '../../../src/state/selectors';
-import { fetchManifest } from '../../../src/state/sagas/iiif';
+import { fetchManifests } from '../../../src/state/sagas/iiif';
 import {
   fetchWindowManifest,
   setWindowDefaultSearchQuery,
@@ -25,12 +25,13 @@ import {
   setCanvasOfFirstSearchResult,
   setCanvasforSelectedAnnotation,
   panToFocusedWindow,
+  setCollectionPath,
 } from '../../../src/state/sagas/windows';
 import fixture from '../../fixtures/version-2/019.json';
 
 describe('window-level sagas', () => {
   describe('fetchWindowManifest', () => {
-    it('calls into fetchManifest for each window', () => {
+    it('calls into fetchManifests for each window', () => {
       const action = {
         window: {
           id: 'x',
@@ -41,28 +42,12 @@ describe('window-level sagas', () => {
       return expectSaga(fetchWindowManifest, action)
         .provide([
           [select(getManifests), {}],
-          [call(fetchManifest, { manifestId: 'manifest.json' }), {}],
+          [call(fetchManifests, 'manifest.json'), {}],
           [call(setWindowStartingCanvas, action)],
           [call(setWindowDefaultSearchQuery, action)],
+          [call(setCollectionPath, { manifestId: 'manifest.json', windowId: 'x' })],
         ])
-        .call(fetchManifest, { manifestId: 'manifest.json' })
-        .run();
-    });
-    it('does not call fetchManifest if the manifest is already available', () => {
-      const action = {
-        window: {
-          id: 'x',
-          manifestId: 'manifest.json',
-        },
-      };
-
-      return expectSaga(fetchWindowManifest, action)
-        .provide([
-          [select(getManifests), { 'manifest.json': {} }],
-          [call(setWindowStartingCanvas, action)],
-          [call(setWindowDefaultSearchQuery, action)],
-        ])
-        .not.call(fetchManifest, { manifestId: 'manifest.json' })
+        .call(fetchManifests, 'manifest.json')
         .run();
     });
     it('calls additional methods after ensuring we have a manifest', () => {
