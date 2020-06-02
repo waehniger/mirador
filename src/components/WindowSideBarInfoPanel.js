@@ -4,6 +4,7 @@ import CompanionWindow from '../containers/CompanionWindow';
 import CanvasInfo from '../containers/CanvasInfo';
 import LocalePicker from '../containers/LocalePicker';
 import ManifestInfo from '../containers/ManifestInfo';
+import CollectionInfo from '../containers/CollectionInfo';
 import ManifestRelatedLinks from '../containers/ManifestRelatedLinks';
 import ns from '../config/css-ns';
 
@@ -21,6 +22,7 @@ export class WindowSideBarInfoPanel extends Component {
       windowId,
       id,
       classes,
+      collectionPath,
       t,
       locale,
       selectedCanvases,
@@ -59,6 +61,11 @@ export class WindowSideBarInfoPanel extends Component {
             </div>
           ))
         }
+        { collectionPath.length > 0 && (
+          <div className={classes.section}>
+            <CollectionInfo id={id} windowId={windowId} />
+          </div>
+        )}
 
         <div className={classes.section}>
           <ManifestInfo id={id} windowId={windowId} />
@@ -75,6 +82,7 @@ export class WindowSideBarInfoPanel extends Component {
 WindowSideBarInfoPanel.propTypes = {
   availableLocales: PropTypes.arrayOf(PropTypes.string),
   classes: PropTypes.objectOf(PropTypes.string),
+  collectionPath: PropTypes.arrayOf(PropTypes.string),
   id: PropTypes.string.isRequired,
   locale: PropTypes.string,
   selectedCanvases: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })),
@@ -87,6 +95,7 @@ WindowSideBarInfoPanel.propTypes = {
 WindowSideBarInfoPanel.defaultProps = {
   availableLocales: [],
   classes: {},
+  collectionPath: [],
   locale: '',
   selectedCanvases: [],
   setLocale: undefined,
